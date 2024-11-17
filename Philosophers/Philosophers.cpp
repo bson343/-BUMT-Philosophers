@@ -3,9 +3,77 @@
 
 #include <iostream>
 
-int main()
+using namespace std;
+
+
+
+struct Arguments
 {
-    std::cout << "Hello World!\n";
+    int numberOfPhilo = -1;
+    int timeToDie = -1;
+    int timeToEat = -1;
+    int timeToSleep = -1;
+    int timesMustEat = -1;
+};
+
+void printArguments(Arguments& param)
+{
+    cout << "Show Input Arguments" << endl;
+    cout << "numberOfPhilo : " << param.numberOfPhilo << endl;
+    cout << "timeToDie : " << param.timeToDie << endl;
+    cout << "timeToEat : " << param.timeToEat << endl;
+    cout << "timeToSleep : " << param.timeToSleep << endl;
+    cout << "timesMustEat : " << param.timesMustEat << endl;
+}
+
+int main(int argc, char** argv)
+{
+    cout << "Project Philosophers\n";
+
+    cout << "argc : " << argc << endl << endl;
+
+    if (argc < 2)
+    {
+        cerr << "\033[0;31m" << "Invaild Arguments" << "\033[0m" << endl;
+
+        cout << "Usage: <number of philosophers> <time to die> <time to eat> <time to sleep> [number of times each philosopher must eat]" << endl;
+
+        exit(1);
+    }
+
+    Arguments initData;
+    {
+        int* mapping[] =
+        {
+            &initData.numberOfPhilo,
+            &initData.timeToDie,
+            &initData.timeToEat,
+            &initData.timeToSleep,
+            &initData.timesMustEat,
+        };
+
+        cout << "Check Arguments" << endl;
+        for (int i = 0; i < argc; i++)
+        {
+            cout << i << " : " << argv[i] << endl;
+
+            int temp = atoi(argv[i]);
+            if (temp < 0)
+            {
+                cerr << "\033[0;31m" << "Invaild Arguments" << "\033[0m" << endl;
+                cout << "The Arguments must be positive." << endl;
+                exit(1);
+            }
+
+            if (i != 0)
+            {
+                *mapping[i - 1] = temp;
+            }
+        }
+
+        printArguments(initData);
+    }
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
