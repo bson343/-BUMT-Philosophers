@@ -398,4 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Output
-Output/
+obj/
+
+# binary
+bin/
+
