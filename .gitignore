@@ -403,3 +403,6 @@ obj/
 # binary
 bin/
 
+# PDB
+symbols/
+
