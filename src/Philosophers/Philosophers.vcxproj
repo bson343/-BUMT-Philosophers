@@ -135,16 +135,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MutexForkTable.cpp" />
     <ClCompile Include="ParameterValidator.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Philosopher.cpp" />
+    <ClCompile Include="QueryPerfCounter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MutexForkTable.h" />
     <ClInclude Include="ParameterValidator.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Philosopher.h" />
+    <ClInclude Include="QueryPerfCounter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

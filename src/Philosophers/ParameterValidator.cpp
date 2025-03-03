@@ -3,49 +3,86 @@
 
 using namespace std;
 
-Arguments ParameterValidator::Validate(int argc, char** argv)
+bool ParameterValidator::Validate(int argc, char** argv, Arguments& out, bool verose)
 {
-    Arguments ret;
+    Arguments compare;
 
-    cout << "Check Arguments" << endl;
+    INT32* retPtr;
+    INT32* minRequirePtr;
 
-    int* mapping[] =
+    retPtr = &out.numberOfPhilo;
+    minRequirePtr = &compare.numberOfPhilo;
+
+    if (verose)
     {
-        &ret.numberOfPhilo,
-        &ret.timeToDie,
-        &ret.timeToEat,
-        &ret.timeToSleep,
-        &ret.timesMustEat,
-    };
+        cout << "Check Arguments" << endl;
+    }
 
-    for (int i = 0; i < argc; i++)
+    for (int i = 1; i < argc; i++)
     {
-        //cout << i << " : " << argv[i] << endl;
+        INT32 parseNumber;
+        bool result = validateNumericRangeInt32(argv[i], parseNumber);
 
-        int temp = atoi(argv[i]);
-        if (temp < 0)
+        if (!result)
         {
             cerr << "\033[0;31m" << "Invaild Arguments" << "\033[0m" << endl;
             cout << "The Arguments must be positive." << endl;
             exit(1);
         }
 
-        if (i != 0)
+        if (*(minRequirePtr + (i - 1)) <= parseNumber)
         {
-            *mapping[i - 1] = temp;
+            *(retPtr + (i - 1)) = parseNumber;
+        }
+        else
+        {
+            cerr << "\033[0;31m" << "Invaild Arguments" << "\033[0m" << endl;
+            PrintArguments(compare, L"Minimum Required Input Value");
+            exit(1);
         }
     }
 
-    return ret;
+    if (argc == 5)
+    {
+        out.timesMustEat = 0;
+    }
+
+    if (verose)
+    {
+        PrintArguments(out, L"Show Input Arguments");
+    }
+
+    return TRUE;
 }
 
-void ParameterValidator::PrintArguments(Arguments& param)
+void ParameterValidator::PrintArguments(Arguments& param, const WCHAR* msg)
 {
-    cout << "*******Show Input Arguments()************" << endl;
+    wprintf_s(L"*******%s************\n", msg);
     cout << "numberOfPhilo : " << param.numberOfPhilo << endl;
     cout << "timeToDie : " << param.timeToDie << endl;
     cout << "timeToEat : " << param.timeToEat << endl;
     cout << "timeToSleep : " << param.timeToSleep << endl;
     cout << "timesMustEat : " << param.timesMustEat << endl;
-    cout << "*****************************************" << endl;
+    cout << "*****************************************" << endl << endl;
+}
+
+bool ParameterValidator::validateNumericRangeInt32(char* numStr, INT32& out)
+{
+    char* endPtr;
+    INT64 inputData = strtol(numStr, &endPtr, 10);
+
+    // 에러 체크
+    if (errno == ERANGE && *endPtr != '\0') 
+    {
+        return FALSE;
+    }
+
+    if (INT_MAX < inputData)
+    {
+        return FALSE;
+    }
+
+    out = static_cast<INT32>(inputData);
+
+    return TRUE;
 }

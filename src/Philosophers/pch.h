@@ -13,5 +13,8 @@
 #include <conio.h>
 #include <process.h>
 #include <iostream>
+#include <limits>
+
+#include "QueryPerfCounter.h"
 
 #endif //PCH_H
