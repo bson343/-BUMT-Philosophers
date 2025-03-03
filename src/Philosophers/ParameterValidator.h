@@ -16,6 +16,6 @@ public:
     static void PrintArguments(Arguments& param, const WCHAR* msg);
 
 private:
-    static bool validateNumericRangeInt32(char* numStr, int& out);
+    static bool validateNumericRangeInt32(char* numStr, INT32& out);
 };
 
